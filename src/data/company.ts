@@ -25,6 +25,8 @@ export interface CompanyInfo {
   headquarters: string;
   phone: string;
   email: string;
+  domain: string;
+  website: string;
   whatsapp: string;
   address: string;
   googleMapsEmbedUrl: string;
@@ -40,7 +42,9 @@ export const companyInfo: CompanyInfo = {
   foundedYear: "2002",
   headquarters: "AFANDI Atelier & Design Studio",
   phone: "+1 (800) 555-2326",
-  email: "contact@afandi-international.com",
+  email: "info@afandi-int.com",
+  domain: "afandi-int.com",
+  website: "https://afandi-int.com",
   whatsapp: "+18005552326",
   address: "Building 04, AFANDI Studio Complex, Atelier Avenue, Suite 400",
   googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9537353153166!3d-37.81627977975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4ce1800567%3A0x3e206385d0642301!2sAFANDI%20INTERNATIONAL!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus",

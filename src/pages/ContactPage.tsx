@@ -14,7 +14,8 @@ import {
   ExternalLink, 
   AlertCircle,
   ClipboardList,
-  Sparkles
+  Sparkles,
+  Globe
 } from 'lucide-react';
 
 const contactSchema = z.object({
@@ -286,7 +287,15 @@ export const ContactPage: React.FC = () => {
                   <Mail className="w-5 h-5 text-[#FDAA27] shrink-0 mt-0.5" />
                   <div>
                     <strong className="text-[#FAF6F0] block text-xs font-bold uppercase tracking-wider">Official Email</strong>
-                    <a href={`mailto:${companyInfo.email}`} className="hover:text-[#FDAA27] font-semibold text-[#FAF6F0] transition-colors">{companyInfo.email}</a>
+                    <a href={`mailto:${companyInfo.email}`} className="hover:text-[#FDAA27] font-semibold text-[#FDAA27] transition-colors">{companyInfo.email}</a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Globe className="w-5 h-5 text-[#FDAA27] shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-[#FAF6F0] block text-xs font-bold uppercase tracking-wider">Official Domain</strong>
+                    <a href={companyInfo.website} className="hover:text-[#FDAA27] font-semibold text-[#FAF6F0] transition-colors tracking-wider uppercase font-mono text-xs">{companyInfo.domain}</a>
                   </div>
                 </div>
               </div>

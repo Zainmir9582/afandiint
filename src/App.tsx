@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -8,7 +8,6 @@ import { AccessoriesPage } from './pages/AccessoriesPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
-import { BrandPreloader } from './components/ui/BrandPreloader';
 
 function AppLayout() {
   const location = useLocation();
@@ -38,16 +37,8 @@ function AppLayout() {
 }
 
 export default function App() {
-  const [showPreloader, setShowPreloader] = useState(true);
-
   return (
     <BrowserRouter>
-      {showPreloader && (
-        <BrandPreloader 
-          minDuration={1300} 
-          onComplete={() => setShowPreloader(false)} 
-        />
-      )}
       <AppLayout />
     </BrowserRouter>
   );

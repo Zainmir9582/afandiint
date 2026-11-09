@@ -47,6 +47,8 @@ export const Logo: React.FC<LogoProps> = ({
         <img 
           src="/images/logo/brand-logo.png" 
           alt="AFANDI INTERNATIONAL Logo" 
+          loading="eager"
+          decoding="async"
           className="h-full w-auto object-contain drop-shadow-md"
         />
       </div>

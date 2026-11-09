@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../ui/Logo';
 import { companyInfo } from '../../data/company';
-import { Mail, Phone, MapPin, ArrowUp, Shield, MessageCircle, Instagram, Linkedin, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUp, Shield, MessageCircle, Instagram, Linkedin, Facebook, Globe } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -105,7 +105,11 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#FDAA27] shrink-0" />
-                <a href={`mailto:${companyInfo.email}`} className="hover:text-[#FDAA27] font-semibold text-[#FAF6F0]">{companyInfo.email}</a>
+                <a href={`mailto:${companyInfo.email}`} className="hover:text-[#FDAA27] font-semibold text-[#FDAA27]">{companyInfo.email}</a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Globe className="w-4 h-4 text-[#FDAA27] shrink-0" />
+                <a href={companyInfo.website} className="hover:text-[#FDAA27] font-semibold text-[#FAF6F0] tracking-wider uppercase font-mono text-xs">{companyInfo.domain}</a>
               </li>
             </ul>
           </div>
@@ -115,7 +119,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar: Copyright & Back to top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#786E61]">
           <div>
-            &copy; {new Date().getFullYear()} <strong className="text-[#FAF6F0] font-bold">AFANDI INTERNATIONAL</strong>. All rights reserved. Quality in Every Detail.
+            &copy; {new Date().getFullYear()} <strong className="text-[#FAF6F0] font-bold">AFANDI INTERNATIONAL</strong> ({companyInfo.domain}). All rights reserved. Quality in Every Detail.
           </div>
 
           <div className="flex items-center gap-6">

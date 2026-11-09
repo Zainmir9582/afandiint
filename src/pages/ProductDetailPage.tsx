@@ -57,6 +57,14 @@ export const ProductDetailPage: React.FC = () => {
     ? product.gallery
     : [product.coverImage];
 
+  // Eagerly pre-cache gallery photos for instant switching
+  useEffect(() => {
+    galleryImages.forEach((imgUrl) => {
+      const img = new Image();
+      img.src = imgUrl;
+    });
+  }, [galleryImages]);
+
   const handleNextImage = () => {
     setActiveImageIndex((prev) => (prev + 1) % galleryImages.length);
   };

@@ -98,6 +98,14 @@ export const AccessoriesPage: React.FC = () => {
     setActiveSubCategory(currentSub);
   }, [searchParams]);
 
+  // Eagerly pre-cache category images for instantaneous, load-free switching
+  useEffect(() => {
+    Object.values(accessoriesCategoryMeta).forEach((meta) => {
+      const img = new Image();
+      img.src = meta.image;
+    });
+  }, []);
+
   const [filters, setFilters] = useState<ProductFilterState>({
     searchQuery: '',
     category: 'accessories',
@@ -239,6 +247,9 @@ export const AccessoriesPage: React.FC = () => {
               <img
                 src={currentMeta.image}
                 alt={currentMeta.imageAlt}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 className="w-full h-full object-cover object-center"
               />
               {/* Luxury Obsidian Gradient Overlays for Maximum Contrast & Text Legibility */}
