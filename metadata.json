@@ -1,0 +1,6 @@
+{
+  "name": "AFANDI INTERNATIONAL - Corporate Showcase",
+  "description": "AFANDI INTERNATIONAL digital product catalogue showcasing premium manufacturing, gearwear, and accessories.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm-ivory: #FAF6F0;
+  --color-soft-beige: #F3EDE2;
+  --color-off-white: #FFFFFF;
+  
+  --color-amber-gold: #FDAA27;
+  --color-amber-dark: #D98A10;
+  --color-amber-light: #FCEFD7;
+  
+  --color-[#FAF6F0]: #FAF6F0;
+  --color-[#F3EDE2]: #F3EDE2;
+  --color-[#FFFFFF]: #FFFFFF;
+  
+  --color-[#12100E]: #12100E;
+  --color-[#1B1814]: #1B1814;
+  --color-[#6E6457]: #6E6457;
+  --color-[#FDAA27]: #FDAA27;
+  --color-[#D98A10]: #D98A10;
+  --color-[#E3D8C8]: #E3D8C8;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', 'Manrope', sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: #FAF6F0;
+    color: #12100E;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Elegant Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #12100E;
+}
+::-webkit-scrollbar-thumb {
+  background: #3B342C;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FDAA27;
+}
+
