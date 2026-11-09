@@ -20,7 +20,6 @@ export const ImageFallback: React.FC<ImageFallbackProps> = ({
   ...props
 }) => {
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   if (hasError || !src) {
     return (
@@ -36,20 +35,14 @@ export const ImageFallback: React.FC<ImageFallbackProps> = ({
 
   return (
     <div className={`relative overflow-hidden bg-[#1A1612] ${className}`}>
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-[#1A1612] flex items-center justify-center">
-          <div className="w-5 h-5 border-2 border-[#FDAA27] border-t-transparent rounded-full animate-spin" />
-        </div>
-      )}
       <img
         src={src}
         alt={alt}
         referrerPolicy="no-referrer"
         loading={loading}
         decoding={decoding}
-        onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)}
-        className={`w-full h-full object-cover transition-opacity duration-200 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        className="w-full h-full object-cover"
         {...props}
       />
     </div>
