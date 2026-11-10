@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { companyInfo } from '../data/company';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   Mail, 
   Phone, 
@@ -34,10 +35,43 @@ export const ContactPage: React.FC = () => {
   const subjectParam = searchParams.get('subject') || '';
   const isProductInquiry = searchParams.get('type') === 'product_inquiry' || subjectParam.length > 0;
 
+  useDocumentSEO({
+    title: isProductInquiry 
+      ? 'Product Related Inquiry Form | AFANDI INTERNATIONAL' 
+      : 'Contact Us | AFANDI INTERNATIONAL Official Desk',
+    description: 'Get in touch with AFANDI INTERNATIONAL headquarters. Submit formal product inquiries, material specification questions, and custom corporate requests.',
+    canonicalPath: '/contact',
+    schema: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "AFANDI INTERNATIONAL Contact & Product Inquiry Desk",
+        "url": "https://afandi-int.com/contact",
+        "email": "info@afandi-int.com",
+        "telephone": "+18005552326"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Portal",
+            "item": "https://afandi-int.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact & Inquiry",
+            "item": "https://afandi-int.com/contact"
+          }
+        ]
+      }
+    ]
+  });
+
   useEffect(() => {
-    document.title = isProductInquiry 
-      ? "Product Related Inquiry Form | AFANDI INTERNATIONAL" 
-      : "Contact Us | AFANDI INTERNATIONAL";
     window.scrollTo(0, 0);
   }, [isProductInquiry]);
 

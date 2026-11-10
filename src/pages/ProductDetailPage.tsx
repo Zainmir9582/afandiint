@@ -4,6 +4,8 @@ import { gearwearProducts } from '../data/gearwear';
 import { accessoriesProducts } from '../data/accessories';
 import { Product } from '../types/product';
 import { ImageFallback } from '../components/ui/ImageFallback';
+import { ProductZoomModal } from '../components/products/ProductZoomModal';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   ArrowLeft, 
   ChevronLeft, 
@@ -12,6 +14,7 @@ import {
   CheckCircle2, 
   PhoneCall, 
   Maximize2,
+  ZoomIn,
   Home
 } from 'lucide-react';
 
@@ -23,11 +26,68 @@ export const ProductDetailPage: React.FC = () => {
   const product = allProducts.find((p) => p.slug === slug);
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+
+  // SEO configuration with rich Product and BreadcrumbList Schema.org structured data
+  useDocumentSEO({
+    title: product ? `${product.name} | AFANDI INTERNATIONAL` : 'Product Details',
+    description: product 
+      ? `${product.shortDescription} Manufactured with ${product.material}. Ref Code: ${product.productCode}. Designed by AFANDI INTERNATIONAL.`
+      : 'AFANDI INTERNATIONAL product specifications and craftsmanship catalog.',
+    canonicalPath: product ? `/products/${product.slug}` : '',
+    image: product?.coverImage,
+    type: 'product',
+    schema: product ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": product.name,
+        "image": product.gallery && product.gallery.length > 0 ? product.gallery : [product.coverImage],
+        "description": product.longDescription,
+        "sku": product.productCode,
+        "brand": {
+          "@type": "Brand",
+          "name": "AFANDI INTERNATIONAL"
+        },
+        "material": product.material,
+        "category": product.category,
+        "offers": {
+          "@type": "Offer",
+          "availability": "https://schema.org/InStock",
+          "price": "0",
+          "priceCurrency": "USD",
+          "url": `https://afandi-int.com/products/${product.slug}`
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Portal",
+            "item": "https://afandi-int.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": product.category === 'gearwear' ? 'Gearwear' : 'Accessories',
+            "item": `https://afandi-int.com/${product.category}`
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": product.name,
+            "item": `https://afandi-int.com/products/${product.slug}`
+          }
+        ]
+      }
+    ] : undefined
+  });
 
   useEffect(() => {
     if (product) {
-      document.title = `${product.name} | AFANDI INTERNATIONAL`;
       window.scrollTo(0, 0);
       setActiveImageIndex(0);
     }
@@ -115,18 +175,21 @@ export const ProductDetailPage: React.FC = () => {
           {/* Left Column: Gallery & Image Zoom */}
           <div className="lg:col-span-6 space-y-4">
             
-            {/* Main Image Stage */}
-            <div className="relative rounded-xs overflow-hidden bg-[#0E0C0A] aspect-4/3 border border-[#2D2720] group">
+            {/* Main Image Stage - Click to Full Zoom */}
+            <div 
+              onClick={() => setIsZoomModalOpen(true)}
+              className="relative rounded-xs overflow-hidden bg-[#0E0C0A] aspect-4/3 border border-[#2D2720] group cursor-zoom-in"
+              title="Click for Full Screen 4x Zoom Inspection"
+            >
               <ImageFallback
                 src={galleryImages[activeImageIndex]}
                 alt={`${product.name} - Photo ${activeImageIndex + 1}`}
                 aspectRatio="aspect-4/3"
-                className={`w-full h-full object-cover transition-all duration-500 ${isZoomed ? 'scale-125 cursor-zoom-out' : 'group-hover:scale-103 cursor-zoom-in'}`}
-                onClick={() => setIsZoomed(!isZoomed)}
+                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
               />
 
               {/* Category & Subcategory Pill Tags */}
-              <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 flex-wrap">
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 flex-wrap pointer-events-none">
                 <span className="px-3 py-1 bg-[#12100E]/90 backdrop-blur-md border border-[#2D2720] font-sans text-[10px] font-bold text-[#FDAA27] uppercase tracking-wider rounded-xs">
                   {product.category}
                 </span>
@@ -138,7 +201,7 @@ export const ProductDetailPage: React.FC = () => {
               </div>
 
               {/* Product Code Badge */}
-              <div className="absolute top-4 right-4 z-10">
+              <div className="absolute top-4 right-4 z-10 pointer-events-none">
                 <span className="px-2.5 py-1 bg-[#12100E]/90 backdrop-blur-md border border-[#2D2720] text-[#FAF6F0] font-mono text-xs font-semibold tracking-wider rounded-xs">
                   {product.productCode}
                 </span>
@@ -148,16 +211,22 @@ export const ProductDetailPage: React.FC = () => {
               {galleryImages.length > 1 && (
                 <>
                   <button
-                    onClick={handlePrevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-xs bg-[#12100E]/80 hover:bg-[#FDAA27] border border-[#2D2720] text-[#FAF6F0] hover:text-[#12100E] shadow-lg transition-all focus:outline-none cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevImage();
+                    }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-xs bg-[#12100E]/80 hover:bg-[#FDAA27] border border-[#2D2720] text-[#FAF6F0] hover:text-[#12100E] shadow-lg transition-all focus:outline-none cursor-pointer z-10"
                     aria-label="Previous Image"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
 
                   <button
-                    onClick={handleNextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-xs bg-[#12100E]/80 hover:bg-[#FDAA27] border border-[#2D2720] text-[#FAF6F0] hover:text-[#12100E] shadow-lg transition-all focus:outline-none cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextImage();
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-xs bg-[#12100E]/80 hover:bg-[#FDAA27] border border-[#2D2720] text-[#FAF6F0] hover:text-[#12100E] shadow-lg transition-all focus:outline-none cursor-pointer z-10"
                     aria-label="Next Image"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -165,10 +234,18 @@ export const ProductDetailPage: React.FC = () => {
                 </>
               )}
 
-              <div className="absolute bottom-3 right-3 font-sans text-[10px] text-[#A89E90] bg-[#12100E]/90 px-2.5 py-1 rounded-xs border border-[#2D2720] flex items-center gap-1.5">
-                <Maximize2 className="w-3 h-3 text-[#FDAA27]" />
-                <span>Click image to zoom</span>
-              </div>
+              {/* Prominent Full Zoom Inspection Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsZoomModalOpen(true);
+                }}
+                className="absolute bottom-3 right-3 z-10 font-sans text-xs font-bold uppercase tracking-wider text-[#12100E] bg-[#FDAA27] hover:bg-[#FFE099] px-3.5 py-2 rounded-xs border border-[#FDAA27] shadow-2xl flex items-center gap-2 transition-all cursor-pointer transform hover:scale-105"
+              >
+                <ZoomIn className="w-4 h-4 text-[#12100E]" />
+                <span>FULL ZOOM INSPECT</span>
+              </button>
             </div>
 
             {/* Gallery Thumbnail Strip */}
@@ -324,6 +401,17 @@ export const ProductDetailPage: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Full Screen Interactive Product Zoom Modal */}
+      <ProductZoomModal
+        isOpen={isZoomModalOpen}
+        onClose={() => setIsZoomModalOpen(false)}
+        images={galleryImages}
+        activeImageIndex={activeImageIndex}
+        onSelectImage={setActiveImageIndex}
+        productName={product.name}
+        productCode={product.productCode}
+      />
     </div>
   );
 };

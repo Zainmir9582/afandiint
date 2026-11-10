@@ -5,6 +5,7 @@ import { gearwearProducts } from '../data/gearwear';
 import { ProductCard } from '../components/products/ProductCard';
 import { ProductFilterSearch } from '../components/products/ProductFilterSearch';
 import { ProductFilterState } from '../types/product';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   ShieldCheck, 
   PackageSearch, 
@@ -15,8 +16,7 @@ import {
   Pocket,
   CheckCircle2,
   SlidersHorizontal,
-  Home,
-  Image as ImageIcon
+  Home
 } from 'lucide-react';
 
 interface SubCategoryMeta {
@@ -31,43 +31,43 @@ interface SubCategoryMeta {
 const gearwearCategoryMeta: Record<string, SubCategoryMeta> = {
   all: {
     title: 'Gearwear Collection',
-    subtitle: 'DIVISION 01 // SPEC-SHEET ARCHIVE',
-    description: 'Engineered for durability, ergonomics, and uncompromising performance across challenging environments. Browse full technical specifications, material compositions, and field capabilities below.',
+    subtitle: 'AFANDI APPAREL ARCHIVE',
+    description: 'Crafted with premium materials, ergonomic patterning, and durable construction. Explore our full range of workwear gloves, outerwear shells, and utility garments below.',
     image: '/images/gearwear/banner.jpg',
     imageAlt: 'Afandi International Gearwear Showcase',
-    badges: ['TACTICAL SPECIFICATIONS', 'BALLISTIC NYLON & KEVLAR®', 'GLOBAL EXPORT CERTIFIED']
+    badges: ['GENUINE COWHIDE LEATHERS', 'REINFORCED DOUBLE SEAMS', 'ISO 9001 CERTIFIED PRODUCTION']
   },
   gloves: {
-    title: 'Handwear & Glove Engineering',
-    subtitle: 'FEATURED CATEGORY // ADVANCED PROTECTION',
-    description: 'Discover our specialized industrial, tactical, and craftsman glove models. Engineered with carbon composite shields, A-grade cowhide leather, Kevlar® stitching, and EN 388 impact certifications.',
+    title: 'Gloves & Handwear',
+    subtitle: 'HANDWEAR CRAFTSMANSHIP',
+    description: 'Specialized industrial, craftsman, and motorcycle riding gloves. Handcrafted with top-grain cowhide leather, protective impact padding, and reinforced grip palms.',
     image: '/images/gearwear/tactical_gloves.jpg',
-    imageAlt: 'Afandi International Tactical & Industrial Gloves',
-    badges: ['EN 388:2016 CERTIFIED IMPACT', 'KEVLAR® HEAT-RESISTANT SEAMS', 'MICRO-DEXTERITY LEVEL 5']
+    imageAlt: 'Afandi International Handwear & Gloves',
+    badges: ['A-GRADE COWHIDE LEATHER', 'IMPACT KNUCKLE DEFENSE', 'FLEXIBLE COMFORT GRIP']
   },
   jackets: {
-    title: 'Jackets & Outerwear Shells',
-    subtitle: 'TACTICAL SHELLS & WEATHERPROOF GEAR',
-    description: 'Weatherproof tactical storm parkas, softshell field jackets, and heavy-duty utility outerwear manufactured with DWR water-repellent coatings and sealed ergonomic seams.',
+    title: 'Jackets & Outerwear',
+    subtitle: 'WEATHERPROOF SHELLS',
+    description: 'All-weather field jackets, storm parkas, and durable utility coats designed with water-resistant exterior coatings and breathable thermal linings.',
     image: '/images/gearwear/jacket.jpg',
-    imageAlt: 'Afandi International Technical Jackets',
-    badges: ['3-LAYER DWR WATERPROOF', 'WINDPROOF THERMO-REGULATION', 'REINFORCED CORDURA® ELBOWS']
+    imageAlt: 'Afandi International Jackets & Outerwear',
+    badges: ['WATER-REPELLENT SHELL', 'THERMAL INSULATION', 'HEAVY-DUTY YKK® HARDWARE']
   },
   pants: {
-    title: 'Trousers & Ergonomic Workwear',
-    subtitle: 'HEAVY-DUTY ERGONOMIC TROUSERS',
-    description: 'Mil-spec ripstop tactical trousers, articulated knee workwear, and high-tenacity cargo pants engineered for unrestricted motion, load distribution, and severe tear resistance.',
+    title: 'Trousers & Workwear',
+    subtitle: 'ERGONOMIC WORKWEAR',
+    description: 'Heavy-duty cotton canvas and ripstop work trousers tailored for unrestricted comfort, reinforced pocket strain points, and long-term durability.',
     image: '/images/gearwear/pants.jpg',
     imageAlt: 'Afandi International Workwear Trousers',
-    badges: ['MIL-SPEC RIPSTOP WEAVE', 'ARTICULATED KNEE POCKETS', 'TEFLON® STAIN RESISTANT']
+    badges: ['DURABLE COTTON RIPSTOP', 'REINFORCED KNEE PANELS', 'MULTI-PURPOSE UTILITY POCKETS']
   },
   vests: {
-    title: 'Thermal Gilets & Layering Vests',
-    subtitle: 'MODULAR INSULATION & TACTICAL CARRIERS',
-    description: 'High-loft thermal insulation vests, multi-pocket tactical utility gilets, and rapid-deployment modular carriers designed for all-season layering and operational agility.',
+    title: 'Vests & Mid-Layers',
+    subtitle: 'ALL-SEASON LAYERING',
+    description: 'Lightweight insulated gilets and multi-pocket utility vests engineered for comfortable daily layering and reliable all-weather warmth.',
     image: '/images/gearwear/vest_header.jpg',
     imageAlt: 'Afandi International Thermal Vests',
-    badges: ['HIGH-LOFT THERMAL RETENTION', 'MODULAR CHEST ATTACHMENT', 'ULTRA-LIGHTWEIGHT RIPSTOP']
+    badges: ['LIGHTWEIGHT THERMAL WARMTH', 'WATER-RESISTANT FINISH', 'DURABLE ZIPPER HARDWARE']
   }
 };
 
@@ -79,16 +79,41 @@ export const GearwearPage: React.FC = () => {
 
   const currentMeta = gearwearCategoryMeta[activeSubCategory] || gearwearCategoryMeta.all;
 
+  // SEO configuration with BreadcrumbList Schema.org data
+  useDocumentSEO({
+    title: `${currentMeta.title} | AFANDI INTERNATIONAL`,
+    description: currentMeta.description,
+    canonicalPath: activeSubCategory === 'all' ? '/gearwear' : `/gearwear?sub=${activeSubCategory}`,
+    image: currentMeta.image,
+    schema: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Portal",
+            "item": "https://afandi-int.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Gearwear",
+            "item": "https://afandi-int.com/gearwear"
+          },
+          ...(activeSubCategory !== 'all' ? [{
+            "@type": "ListItem",
+            "position": 3,
+            "name": currentMeta.title,
+            "item": `https://afandi-int.com/gearwear?sub=${activeSubCategory}`
+          }] : [])
+        ]
+      }
+    ]
+  });
+
   useEffect(() => {
-    document.title = activeSubCategory === 'gloves' 
-      ? "Gloves & Handwear Collection | AFANDI INTERNATIONAL" 
-      : activeSubCategory === 'jackets'
-      ? "Jackets & Outerwear Shells | AFANDI INTERNATIONAL"
-      : activeSubCategory === 'pants'
-      ? "Trousers & Workwear | AFANDI INTERNATIONAL"
-      : activeSubCategory === 'vests'
-      ? "Thermal Gilets & Vests | AFANDI INTERNATIONAL"
-      : "Gearwear Division Showcase | AFANDI INTERNATIONAL";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeSubCategory]);
 
@@ -263,14 +288,9 @@ export const GearwearPage: React.FC = () => {
           {/* Header Content */}
           <div className="relative z-10 w-full p-8 sm:p-12 lg:p-14 max-w-3xl space-y-4">
             <div className="flex flex-wrap items-center gap-2.5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FDAA27] text-[#12100E] font-sans text-xs font-bold uppercase tracking-wider rounded-xs shadow-md">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#FDAA27] text-[#12100E] font-sans text-xs font-bold uppercase tracking-wider rounded-xs shadow-md">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{currentMeta.subtitle}</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#12100E]/80 backdrop-blur-sm border border-[#FDAA27]/40 text-[#FDAA27] font-mono text-[11px] font-semibold uppercase tracking-wider rounded-xs">
-                <ImageIcon className="w-3 h-3 text-[#FDAA27]" />
-                <span>CATEGORY BG:</span>
-                <span className="text-[#FAF6F0]">{activeSubCategory.toUpperCase()}</span>
               </div>
             </div>
 

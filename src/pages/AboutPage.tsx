@@ -3,10 +3,37 @@ import { companyInfo } from '../data/company';
 import { ImageFallback } from '../components/ui/ImageFallback';
 import { ShieldCheck, Target, Eye, Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 
 export const AboutPage: React.FC = () => {
+  useDocumentSEO({
+    title: 'About Us | AFANDI INTERNATIONAL Manufacturing & Heritage',
+    description: 'Learn about AFANDI INTERNATIONAL design heritage, ISO 9001 quality standards, and master craftsmanship across gearwear and carry accessories.',
+    canonicalPath: '/about',
+    image: '/images/company/factory.jpg',
+    schema: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Portal",
+            "item": "https://afandi-int.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About Us",
+            "item": "https://afandi-int.com/about"
+          }
+        ]
+      }
+    ]
+  });
+
   useEffect(() => {
-    document.title = "About Us | AFANDI INTERNATIONAL";
     window.scrollTo(0, 0);
   }, []);
 

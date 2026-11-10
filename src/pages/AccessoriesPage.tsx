@@ -5,6 +5,7 @@ import { accessoriesProducts } from '../data/accessories';
 import { ProductCard } from '../components/products/ProductCard';
 import { ProductFilterSearch } from '../components/products/ProductFilterSearch';
 import { ProductFilterState } from '../types/product';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 import { 
   Briefcase, 
   PackageSearch, 
@@ -15,8 +16,7 @@ import {
   Key,
   CheckCircle2,
   SlidersHorizontal,
-  Home,
-  Image as ImageIcon
+  Home
 } from 'lucide-react';
 
 interface SubCategoryMeta {
@@ -31,43 +31,43 @@ interface SubCategoryMeta {
 const accessoriesCategoryMeta: Record<string, SubCategoryMeta> = {
   all: {
     title: 'Accessories Collection',
-    subtitle: 'DIVISION 02 // SPEC-SHEET ARCHIVE',
-    description: 'Form, function, and enduring materials converge across our carry backpacks, tactical webbing belts, full-grain leather wallets, and solid bronze EDC hardware.',
+    subtitle: 'AFANDI ACCESSORIES ARCHIVE',
+    description: 'Form, function, and enduring materials converge across our carry backpacks, durable webbing belts, full-grain leather wallets, and solid bronze everyday hardware.',
     image: '/images/accessories/banner.jpg',
     imageAlt: 'Afandi International Accessories Showcase',
-    badges: ['AEROSPACE HARDWARE', 'FULL-GRAIN LEATHERS', 'LIFETIME INDUSTRIAL GRADE']
+    badges: ['FULL-GRAIN LEATHERS', 'SOLID BRASS HARDWARE', 'LIFETIME CRAFTSMANSHIP']
   },
   wallets: {
-    title: 'Wallets & Leather EDC Goods',
-    subtitle: 'FEATURED CATEGORY // VEGETABLE-TANNED EDC',
-    description: 'Handcrafted full-grain Italian leather folios, RFID-shielded bifold wallets, and EDC tech pouches designed for seamless everyday organization and generational patina.',
+    title: 'Wallets & Leather Goods',
+    subtitle: 'HANDCRAFTED LEATHER EDC',
+    description: 'Handcrafted full-grain Italian leather folios, RFID-shielded bifold wallets, and pocket pouches designed for refined everyday organization and natural patina.',
     image: '/images/accessories/edc_wallet.jpg',
     imageAlt: 'Afandi International Leather EDC Wallets',
-    badges: ['ITALIAN VEGETABLE-TANNED COWHIDE', 'INTEGRATED MIL-SPEC RFID SHIELD', 'HAND-WAXED BURNISHED EDGES']
+    badges: ['ITALIAN VEGETABLE-TANNED COWHIDE', 'RFID SHIELDED PROTECTION', 'HAND-BURNISHED EDGES']
   },
   bags: {
-    title: 'Backpacks & Carry Solutions',
-    subtitle: 'MODULAR PACKS & TRANSIT BAGS',
-    description: 'Rugged rolltop commuters, modular tactical 3-day packs, and Cordura® gear bags engineered for heavy transit, moisture protection, and balanced ergonomic carry.',
+    title: 'Backpacks & Carry Bags',
+    subtitle: 'WEEKENDER & COMMUTER BAGS',
+    description: 'Clean commuter rolltops, travel weekenders, and heavy-duty gear bags crafted for moisture resistance, balanced ergonomics, and everyday reliability.',
     image: '/images/accessories/backpack.jpg',
     imageAlt: 'Afandi International Carry Backpacks',
-    badges: ['1000D CORDURA® BALLISTIC', 'WATERPROOF YKK® AQUAGUARD', 'ERGONOMIC HARNESS SYSTEM']
+    badges: ['WEATHER-RESISTANT CANVAS', 'DURABLE YKK® ZIPPERS', 'PADDED ERGONOMIC HARNESS']
   },
   belts: {
-    title: 'Technical Belts & Heavy Webbing',
-    subtitle: 'LOAD-BEARING WEBBING & HARNESS BELTS',
-    description: 'High-tensile nylon webbing belts with quick-release aluminum cobra-style buckles and vegetable-tanned harness leather utility belts built for lifetime field performance.',
+    title: 'Belts & Heavy Webbing',
+    subtitle: 'DURABLE UTILITY BELTS',
+    description: 'High-tensile nylon webbing belts with quick-release forged alloy buckles and vegetable-tanned harness leather utility belts.',
     image: '/images/accessories/belts_header.jpg',
-    imageAlt: 'Afandi International Tactical & Leather Belts',
-    badges: ['QUICK-RELEASE FORGED BUCKLE', 'HIGH-TENSILE NYLON WEBBING', 'REINFORCED BOX-STITCHED BAR-TACKS']
+    imageAlt: 'Afandi International Belts & Webbing',
+    badges: ['QUICK-RELEASE FORGED BUCKLE', 'HIGH-TENSILE DURABLE WEBBING', 'REINFORCED BOX-STITCHED SEAMS']
   },
   hardware: {
-    title: 'Solid Bronze Hardware & Clips',
-    subtitle: 'MIL-SPEC HARDWARE & KEY CARRIERS',
-    description: 'Precision-milled brass and solid bronze key clips, titanium carabiners, heavy-duty trigger snaps, and forged brass split rings for lifetime EDC gear retention.',
+    title: 'Bronze Hardware & Clips',
+    subtitle: 'SOLID BRASS & BRONZE',
+    description: 'Precision-milled brass and solid bronze key clips, carabiners, heavy-duty trigger snaps, and split rings designed for lifetime gear retention.',
     image: '/images/accessories/hardware_header.jpg',
     imageAlt: 'Afandi International Solid Bronze Hardware',
-    badges: ['SOLID FORGED BRONZE & BRASS', 'ANTI-CORROSION PATINA FINISH', 'HEAVY DUTY LOAD-BEARING GATES']
+    badges: ['SOLID FORGED BRONZE & BRASS', 'NATURAL AGING PATINA', 'HEAVY LOAD-BEARING GATES']
   }
 };
 
@@ -79,16 +79,41 @@ export const AccessoriesPage: React.FC = () => {
 
   const currentMeta = accessoriesCategoryMeta[activeSubCategory] || accessoriesCategoryMeta.all;
 
+  // SEO configuration with BreadcrumbList Schema.org data
+  useDocumentSEO({
+    title: `${currentMeta.title} | AFANDI INTERNATIONAL`,
+    description: currentMeta.description,
+    canonicalPath: activeSubCategory === 'all' ? '/accessories' : `/accessories?sub=${activeSubCategory}`,
+    image: currentMeta.image,
+    schema: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Portal",
+            "item": "https://afandi-int.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Accessories",
+            "item": "https://afandi-int.com/accessories"
+          },
+          ...(activeSubCategory !== 'all' ? [{
+            "@type": "ListItem",
+            "position": 3,
+            "name": currentMeta.title,
+            "item": `https://afandi-int.com/accessories?sub=${activeSubCategory}`
+          }] : [])
+        ]
+      }
+    ]
+  });
+
   useEffect(() => {
-    document.title = activeSubCategory === 'wallets' 
-      ? "Wallets & Leather Accessories | AFANDI INTERNATIONAL" 
-      : activeSubCategory === 'bags'
-      ? "Bags & Backpacks Collection | AFANDI INTERNATIONAL"
-      : activeSubCategory === 'belts'
-      ? "Technical Belts & Webbing | AFANDI INTERNATIONAL"
-      : activeSubCategory === 'hardware'
-      ? "Bronze Hardware & EDC Clips | AFANDI INTERNATIONAL"
-      : "Accessories Division Showcase | AFANDI INTERNATIONAL";
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeSubCategory]);
 
@@ -263,14 +288,9 @@ export const AccessoriesPage: React.FC = () => {
           {/* Header Content */}
           <div className="relative z-10 w-full p-8 sm:p-12 lg:p-14 max-w-3xl space-y-4">
             <div className="flex flex-wrap items-center gap-2.5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FDAA27] text-[#12100E] font-sans text-xs font-bold uppercase tracking-wider rounded-xs shadow-md">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#FDAA27] text-[#12100E] font-sans text-xs font-bold uppercase tracking-wider rounded-xs shadow-md">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{currentMeta.subtitle}</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#12100E]/80 backdrop-blur-sm border border-[#FDAA27]/40 text-[#FDAA27] font-mono text-[11px] font-semibold uppercase tracking-wider rounded-xs">
-                <ImageIcon className="w-3 h-3 text-[#FDAA27]" />
-                <span>CATEGORY BG:</span>
-                <span className="text-[#FAF6F0]">{activeSubCategory.toUpperCase()}</span>
               </div>
             </div>
 

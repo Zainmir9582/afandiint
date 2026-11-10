@@ -107,14 +107,14 @@ export const accessoriesProducts: Product[] = [
   },
   {
     id: "accessories-bg-002",
-    name: "AFANDI Modular Everyday Tactical Daypack",
+    name: "AFANDI Modular Everyday Transit Daypack",
     slug: "modular-everyday-tactical-daypack",
     category: "accessories",
     subCategory: "bags",
     subCategoryTitle: "Bags & Carry Solutions",
-    shortDescription: "22L streamlined weather-resistant ballistic nylon daypack with modular attachment webbing.",
-    longDescription: "Designed for daily urban commuting, field operations, and versatile utility. Constructed from ultra-tough 1000D Cordura® ballistic nylon with discreet laser-cut attachment slots and storm-resistant taped zippers.",
-    material: "1000D Cordura® Ballistic Nylon, Hypalon Reinforcements, YKK® AquaGuard® Zippers",
+    shortDescription: "22L streamlined weather-resistant high-density canvas daypack with reinforced webbing and ergonomic carry.",
+    longDescription: "Designed for daily urban commuting, weekend transit, and versatile utility. Constructed from ultra-durable weatherproof canvas and high-density woven nylon with storm-resistant taped zippers and a suspended device compartment.",
+    material: "High-Density Weatherproof Canvas, Reinforced Bar-Tacks, YKK® AquaGuard® Zippers",
     sizes: ["22L Standard"],
     colors: ["Obsidian Slate", "Coyote Amber", "Field Green"],
     features: [

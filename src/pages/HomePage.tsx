@@ -12,10 +12,40 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { companyInfo } from '../data/company';
+import { useDocumentSEO } from '../hooks/useDocumentSEO';
 
 export const HomePage: React.FC = () => {
+  useDocumentSEO({
+    title: 'AFANDI INTERNATIONAL | Premium Gearwear & Accessories',
+    description: 'Official digital showroom of AFANDI INTERNATIONAL. Explore handcrafted leather goods, workwear gloves, outerwear shells, and carry accessories.',
+    canonicalPath: '/',
+    image: '/images/logo/brand-logo.png',
+    type: 'website',
+    schema: [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AFANDI INTERNATIONAL",
+        "url": "https://afandi-int.com",
+        "description": "AFANDI INTERNATIONAL digital product catalogue showcasing premium manufacturing, gearwear, and accessories."
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "AFANDI INTERNATIONAL",
+        "url": "https://afandi-int.com",
+        "logo": "https://afandi-int.com/images/logo/brand-logo.png",
+        "email": "info@afandi-int.com",
+        "telephone": "+18005552326",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Building 04, AFANDI Studio Complex, Atelier Avenue, Suite 400"
+        }
+      }
+    ]
+  });
+
   useEffect(() => {
-    document.title = "AFANDI INTERNATIONAL | Official Portal";
     window.scrollTo(0, 0);
   }, []);
 
